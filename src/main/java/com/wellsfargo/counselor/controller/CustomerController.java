@@ -1,5 +1,6 @@
 package com.wellsfargo.counselor.controller;
 
+import com.wellsfargo.counselor.dto.CustomerDto;
 import com.wellsfargo.counselor.entity.Customer;
 import com.wellsfargo.counselor.entity.FinancialGoal;
 import com.wellsfargo.counselor.entity.Portfolio;
@@ -38,13 +39,17 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerDto> getAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Optional<Customer> getCustomerById(@PathVariable Long id) {
-        return customerRepository.findById(id);
+    public Optional<CustomerDto> getCustomerById(@PathVariable Long id) {
+        return customerRepository.findById(id)
+                .map(this::toDto);
     }
 
     @GetMapping("/{id}/portfolios")
@@ -60,5 +65,23 @@ public class CustomerController {
     @GetMapping("/{id}/risk-profiles")
     public List<RiskProfile> getCustomerRiskProfiles(@PathVariable Long id) {
         return riskProfileRepository.findByCustomerCustomerId(id);
+    }
+
+    private CustomerDto toDto(Customer customer) {
+        String advisorName = customer.getAdvisor().getFirstName() + " " + customer.getAdvisor().getLastName();
+
+        return new CustomerDto(
+                customer.getCustomerId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getDateOfBirth(),
+                customer.getEmail(),
+                customer.getPhoneNumber(),
+                customer.getEmploymentStatus(),
+                customer.getAnnualIncome(),
+                customer.getCustomerStatus(),
+                customer.getAdvisor().getAdvisorId(),
+                advisorName
+        );
     }
 }
