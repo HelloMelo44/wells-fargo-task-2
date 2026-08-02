@@ -243,3 +243,15 @@ GET /api/financial-goals/{id}
 
 GET /api/risk-profiles
 GET /api/risk-profiles/{id}
+
+
+## DTO Response Layer
+
+The API uses DTOs to return cleaner JSON responses instead of exposing full JPA entity graphs directly.
+
+This prevents deeply nested responses such as:
+
+```text
+Portfolio -> Customer -> Advisor
+PortfolioHolding -> Portfolio -> Customer -> Advisor -> Product
+Recommendation -> Advisor -> Customer -> Product
