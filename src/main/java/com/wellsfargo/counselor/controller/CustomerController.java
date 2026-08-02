@@ -3,7 +3,7 @@ package com.wellsfargo.counselor.controller;
 import com.wellsfargo.counselor.dto.CustomerDto;
 import com.wellsfargo.counselor.entity.Customer;
 import com.wellsfargo.counselor.entity.FinancialGoal;
-import com.wellsfargo.counselor.entity.Portfolio;
+import com.wellsfargo.counselor.dto.PortfolioDto;
 import com.wellsfargo.counselor.entity.RiskProfile;
 import com.wellsfargo.counselor.repository.CustomerRepository;
 import com.wellsfargo.counselor.repository.FinancialGoalRepository;
@@ -53,9 +53,12 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}/portfolios")
-    public List<Portfolio> getCustomerPortfolios(@PathVariable Long id) {
-        return portfolioRepository.findByCustomerCustomerId(id);
-    }
+public List<PortfolioDto> getCustomerPortfolios(@PathVariable Long id) {
+    return portfolioRepository.findByCustomerCustomerId(id)
+            .stream()
+            .map(this::toPortfolioDto)
+            .toList();
+}
 
     @GetMapping("/{id}/financial-goals")
     public List<FinancialGoal> getCustomerFinancialGoals(@PathVariable Long id) {
@@ -84,4 +87,18 @@ public class CustomerController {
                 advisorName
         );
     }
+private PortfolioDto toPortfolioDto(com.wellsfargo.counselor.entity.Portfolio portfolio) {
+    String customerName = portfolio.getCustomer().getFirstName() + " " + portfolio.getCustomer().getLastName();
+
+    return new PortfolioDto(
+            portfolio.getPortfolioId(),
+            portfolio.getPortfolioName(),
+            portfolio.getPortfolioType(),
+            portfolio.getCreatedDate(),
+            portfolio.getTotalValue(),
+            portfolio.getPortfolioStatus(),
+            portfolio.getCustomer().getCustomerId(),
+            customerName
+    );
+}
 }
