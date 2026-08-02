@@ -158,7 +158,9 @@ Represents a meeting between an advisor and a customer.
 
 \## Entity Relationships
 
+A more detailed Mermaid ERD is available here:
 
+[Entity Relationship Diagram](docs/entity-relationship-diagram.md)
 
 The main relationships are:
 
