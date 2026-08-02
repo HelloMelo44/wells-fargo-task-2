@@ -228,3 +228,18 @@ GET /api/portfolios
 GET /api/portfolios/{id}
 GET /api/portfolios/{id}/holdings
 GET /api/portfolios/{id}/transactions
+
+GET /api/investment-products
+GET /api/investment-products/{id}
+
+GET /api/appointments
+GET /api/appointments/{id}
+
+GET /api/recommendations
+GET /api/recommendations/{id}
+
+GET /api/financial-goals
+GET /api/financial-goals/{id}
+
+GET /api/risk-profiles
+GET /api/risk-profiles/{id}
