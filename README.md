@@ -200,3 +200,11 @@ Advisor 1 -> many Appointments
 
 Advisor 1 -> many Recommendations
 
+
+
+## How to Run
+
+Clone the repository:
+
+```bash
+git clone https://github.com/HelloMelo44/wells-fargo-task-2.git
