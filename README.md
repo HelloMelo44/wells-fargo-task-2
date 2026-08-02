@@ -208,3 +208,23 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/HelloMelo44/wells-fargo-task-2.git
+
+
+## API Endpoints
+
+After starting the application, the following read-only API endpoints are available:
+
+```text
+GET /api/advisors
+GET /api/advisors/{id}
+
+GET /api/customers
+GET /api/customers/{id}
+GET /api/customers/{id}/portfolios
+GET /api/customers/{id}/financial-goals
+GET /api/customers/{id}/risk-profiles
+
+GET /api/portfolios
+GET /api/portfolios/{id}
+GET /api/portfolios/{id}/holdings
+GET /api/portfolios/{id}/transactions
