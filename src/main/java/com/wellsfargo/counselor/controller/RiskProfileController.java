@@ -1,5 +1,6 @@
 package com.wellsfargo.counselor.controller;
 
+import com.wellsfargo.counselor.dto.RiskProfileDto;
 import com.wellsfargo.counselor.entity.RiskProfile;
 import com.wellsfargo.counselor.repository.RiskProfileRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,31 @@ public class RiskProfileController {
     }
 
     @GetMapping
-    public List<RiskProfile> getAllRiskProfiles() {
-        return riskProfileRepository.findAll();
+    public List<RiskProfileDto> getAllRiskProfiles() {
+        return riskProfileRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Optional<RiskProfile> getRiskProfileById(@PathVariable Long id) {
-        return riskProfileRepository.findById(id);
+    public Optional<RiskProfileDto> getRiskProfileById(@PathVariable Long id) {
+        return riskProfileRepository.findById(id)
+                .map(this::toDto);
+    }
+
+    private RiskProfileDto toDto(RiskProfile riskProfile) {
+        String customerName = riskProfile.getCustomer().getFirstName() + " " + riskProfile.getCustomer().getLastName();
+
+        return new RiskProfileDto(
+                riskProfile.getRiskProfileId(),
+                riskProfile.getRiskLevel(),
+                riskProfile.getInvestmentExperience(),
+                riskProfile.getTimeHorizon(),
+                riskProfile.getLiquidityNeeds(),
+                riskProfile.getAssessmentDate(),
+                riskProfile.getCustomer().getCustomerId(),
+                customerName
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.wellsfargo.counselor.controller;
 
+import com.wellsfargo.counselor.dto.AppointmentDto;
 import com.wellsfargo.counselor.entity.Appointment;
 import com.wellsfargo.counselor.repository.AppointmentRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,33 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
+    public List<AppointmentDto> getAllAppointments() {
+        return appointmentRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Optional<Appointment> getAppointmentById(@PathVariable Long id) {
-        return appointmentRepository.findById(id);
+    public Optional<AppointmentDto> getAppointmentById(@PathVariable Long id) {
+        return appointmentRepository.findById(id)
+                .map(this::toDto);
+    }
+
+    private AppointmentDto toDto(Appointment appointment) {
+        String advisorName = appointment.getAdvisor().getFirstName() + " " + appointment.getAdvisor().getLastName();
+        String customerName = appointment.getCustomer().getFirstName() + " " + appointment.getCustomer().getLastName();
+
+        return new AppointmentDto(
+                appointment.getAppointmentId(),
+                appointment.getAppointmentDate(),
+                appointment.getMeetingType(),
+                appointment.getMeetingNotes(),
+                appointment.getAppointmentStatus(),
+                appointment.getAdvisor().getAdvisorId(),
+                advisorName,
+                appointment.getCustomer().getCustomerId(),
+                customerName
+        );
     }
 }

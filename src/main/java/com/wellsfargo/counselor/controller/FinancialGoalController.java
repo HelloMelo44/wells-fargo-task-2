@@ -1,5 +1,6 @@
 package com.wellsfargo.counselor.controller;
 
+import com.wellsfargo.counselor.dto.FinancialGoalDto;
 import com.wellsfargo.counselor.entity.FinancialGoal;
 import com.wellsfargo.counselor.repository.FinancialGoalRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,31 @@ public class FinancialGoalController {
     }
 
     @GetMapping
-    public List<FinancialGoal> getAllFinancialGoals() {
-        return financialGoalRepository.findAll();
+    public List<FinancialGoalDto> getAllFinancialGoals() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Optional<FinancialGoal> getFinancialGoalById(@PathVariable Long id) {
-        return financialGoalRepository.findById(id);
+    public Optional<FinancialGoalDto> getFinancialGoalById(@PathVariable Long id) {
+        return financialGoalRepository.findById(id)
+                .map(this::toDto);
+    }
+
+    private FinancialGoalDto toDto(FinancialGoal goal) {
+        String customerName = goal.getCustomer().getFirstName() + " " + goal.getCustomer().getLastName();
+
+        return new FinancialGoalDto(
+                goal.getGoalId(),
+                goal.getGoalType(),
+                goal.getTargetAmount(),
+                goal.getTargetDate(),
+                goal.getPriority(),
+                goal.getGoalStatus(),
+                goal.getCustomer().getCustomerId(),
+                customerName
+        );
     }
 }
