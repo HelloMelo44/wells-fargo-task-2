@@ -1,6 +1,8 @@
 package com.wellsfargo.counselor.controller;
 
 import com.wellsfargo.counselor.dto.PortfolioDto;
+import com.wellsfargo.counselor.dto.PortfolioHoldingDto;
+import com.wellsfargo.counselor.dto.PortfolioTransactionDto;
 import com.wellsfargo.counselor.entity.Portfolio;
 import com.wellsfargo.counselor.entity.PortfolioHolding;
 import com.wellsfargo.counselor.entity.PortfolioTransaction;
@@ -37,27 +39,33 @@ public class PortfolioController {
     public List<PortfolioDto> getAllPortfolios() {
         return portfolioRepository.findAll()
                 .stream()
-                .map(this::toDto)
+                .map(this::toPortfolioDto)
                 .toList();
     }
 
     @GetMapping("/{id}")
     public Optional<PortfolioDto> getPortfolioById(@PathVariable Long id) {
         return portfolioRepository.findById(id)
-                .map(this::toDto);
+                .map(this::toPortfolioDto);
     }
 
     @GetMapping("/{id}/holdings")
-    public List<PortfolioHolding> getPortfolioHoldings(@PathVariable Long id) {
-        return portfolioHoldingRepository.findByPortfolioPortfolioId(id);
+    public List<PortfolioHoldingDto> getPortfolioHoldings(@PathVariable Long id) {
+        return portfolioHoldingRepository.findByPortfolioPortfolioId(id)
+                .stream()
+                .map(this::toHoldingDto)
+                .toList();
     }
 
     @GetMapping("/{id}/transactions")
-    public List<PortfolioTransaction> getPortfolioTransactions(@PathVariable Long id) {
-        return portfolioTransactionRepository.findByPortfolioPortfolioId(id);
+    public List<PortfolioTransactionDto> getPortfolioTransactions(@PathVariable Long id) {
+        return portfolioTransactionRepository.findByPortfolioPortfolioId(id)
+                .stream()
+                .map(this::toTransactionDto)
+                .toList();
     }
 
-    private PortfolioDto toDto(Portfolio portfolio) {
+    private PortfolioDto toPortfolioDto(Portfolio portfolio) {
         String customerName = portfolio.getCustomer().getFirstName() + " " + portfolio.getCustomer().getLastName();
 
         return new PortfolioDto(
@@ -69,6 +77,36 @@ public class PortfolioController {
                 portfolio.getPortfolioStatus(),
                 portfolio.getCustomer().getCustomerId(),
                 customerName
+        );
+    }
+
+    private PortfolioHoldingDto toHoldingDto(PortfolioHolding holding) {
+        return new PortfolioHoldingDto(
+                holding.getHoldingId(),
+                holding.getQuantity(),
+                holding.getPurchasePrice(),
+                holding.getCurrentValue(),
+                holding.getPurchaseDate(),
+                holding.getPortfolio().getPortfolioId(),
+                holding.getPortfolio().getPortfolioName(),
+                holding.getProduct().getProductId(),
+                holding.getProduct().getProductName(),
+                holding.getProduct().getProductType()
+        );
+    }
+
+    private PortfolioTransactionDto toTransactionDto(PortfolioTransaction transaction) {
+        return new PortfolioTransactionDto(
+                transaction.getTransactionId(),
+                transaction.getTransactionType(),
+                transaction.getTransactionDate(),
+                transaction.getQuantity(),
+                transaction.getAmount(),
+                transaction.getTransactionStatus(),
+                transaction.getPortfolio().getPortfolioId(),
+                transaction.getPortfolio().getPortfolioName(),
+                transaction.getProduct().getProductId(),
+                transaction.getProduct().getProductName()
         );
     }
 }
