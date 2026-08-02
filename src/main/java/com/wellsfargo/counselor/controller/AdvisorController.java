@@ -1,5 +1,6 @@
 package com.wellsfargo.counselor.controller;
 
+import com.wellsfargo.counselor.dto.AdvisorDto;
 import com.wellsfargo.counselor.entity.Advisor;
 import com.wellsfargo.counselor.repository.AdvisorRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,26 @@ public class AdvisorController {
     }
 
     @GetMapping
-    public List<Advisor> getAllAdvisors() {
-        return advisorRepository.findAll();
+    public List<AdvisorDto> getAllAdvisors() {
+        return advisorRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Optional<Advisor> getAdvisorById(@PathVariable Long id) {
-        return advisorRepository.findById(id);
+    public Optional<AdvisorDto> getAdvisorById(@PathVariable Long id) {
+        return advisorRepository.findById(id)
+                .map(this::toDto);
+    }
+
+    private AdvisorDto toDto(Advisor advisor) {
+        return new AdvisorDto(
+                advisor.getAdvisorId(),
+                advisor.getFirstName(),
+                advisor.getLastName(),
+                advisor.getEmail(),
+                advisor.getPhone()
+        );
     }
 }
