@@ -1,8 +1,8 @@
-\# Portfolio Management Data Model
+# Portfolio Management Data Model
 
 
 
-\## Project Overview
+## Project Overview
 
 
 
@@ -18,7 +18,7 @@ The focus of this project is backend data modelling using Java, Spring Boot and 
 
 
 
-\## Business Problem
+## Business Problem
 
 
 
@@ -34,49 +34,49 @@ The model answers questions such as:
 
 
 
-\- Which advisor manages which customers?
+- Which advisor manages which customers?
 
-\- Which customers own which portfolios?
+- Which customers own which portfolios?
 
-\- Which investment products are held in each portfolio?
+- Which investment products are held in each portfolio?
 
-\- What transactions have taken place for a portfolio?
+- What transactions have taken place for a portfolio?
 
-\- What financial goals does a customer have?
+- What financial goals does a customer have?
 
-\- What is the customer's risk profile?
+- What is the customer's risk profile?
 
-\- What product recommendations has an advisor made?
+- What product recommendations has an advisor made?
 
-\- What appointments have been scheduled between advisors and customers?
-
-
-
-\## Tools and Technologies
+- What appointments have been scheduled between advisors and customers?
 
 
 
-\- Java
-
-\- Spring Boot
-
-\- Spring Data JPA
-
-\- Maven
-
-\- H2 Database
-
-\- IntelliJ IDEA
-
-\- Git and GitHub
+## Tools and Technologies
 
 
 
-\## Main Entities
+- Java
+
+- Spring Boot
+
+- Spring Data JPA
+
+- Maven
+
+- H2 Database
+
+- IntelliJ IDEA
+
+- Git and GitHub
 
 
 
-\### Advisor
+## Main Entities
+
+
+
+### Advisor
 
 
 
@@ -84,7 +84,7 @@ Represents a financial advisor who manages customers and provides investment rec
 
 
 
-\### Customer
+### Customer
 
 
 
@@ -92,7 +92,7 @@ Represents a customer receiving financial advice. A customer belongs to an advis
 
 
 
-\### Portfolio
+### Portfolio
 
 
 
@@ -100,7 +100,7 @@ Represents a customer's investment portfolio. A portfolio belongs to a customer 
 
 
 
-\### InvestmentProduct
+### InvestmentProduct
 
 
 
@@ -108,7 +108,7 @@ Represents an investment product such as a fund, stock, bond or other financial 
 
 
 
-\### PortfolioHolding
+### PortfolioHolding
 
 
 
@@ -116,7 +116,7 @@ Represents an investment product held inside a portfolio. It tracks quantity, pu
 
 
 
-\### PortfolioTransaction
+### PortfolioTransaction
 
 
 
@@ -124,7 +124,7 @@ Represents buying, selling or other transaction activity linked to a portfolio a
 
 
 
-\### FinancialGoal
+### FinancialGoal
 
 
 
@@ -132,7 +132,7 @@ Represents a customer's financial objective, including goal type, target amount,
 
 
 
-\### RiskProfile
+### RiskProfile
 
 
 
@@ -140,7 +140,7 @@ Represents a customer's investment risk assessment, including risk level, experi
 
 
 
-\### Recommendation
+### Recommendation
 
 
 
@@ -148,7 +148,7 @@ Represents a product recommendation made by an advisor to a customer.
 
 
 
-\### Appointment
+### Appointment
 
 
 
@@ -156,7 +156,7 @@ Represents a meeting between an advisor and a customer.
 
 
 
-\## Entity Relationships
+## Entity Relationships
 
 A more detailed Mermaid ERD is available here:
 
