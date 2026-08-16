@@ -255,3 +255,12 @@ This prevents deeply nested responses such as:
 Portfolio -> Customer -> Advisor
 PortfolioHolding -> Portfolio -> Customer -> Advisor -> Product
 Recommendation -> Advisor -> Customer -> Product
+
+## Testing
+
+The project includes automated tests to verify that the Spring Boot application, database layer, and API endpoints work correctly.
+
+Current tests include:
+
+```text
+EntrypointTests
